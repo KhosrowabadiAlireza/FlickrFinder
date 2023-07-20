@@ -4,6 +4,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 
+/**
+ * BaseActivity is base class for Activities to reduce Boilerplate codes to create binding object
+ * */
 abstract class BaseActivity<T: ViewBinding>:AppCompatActivity(){
 
     private var _binding: T? = null
@@ -16,6 +19,9 @@ abstract class BaseActivity<T: ViewBinding>:AppCompatActivity(){
         doOnCreate()
     }
 
+    /**
+     * return the binding class generated in sub classes and use it in setContentView() inside onCreate() function.
+     * */
     abstract fun getViewBinding(): T
     protected abstract fun doOnCreate()
 }

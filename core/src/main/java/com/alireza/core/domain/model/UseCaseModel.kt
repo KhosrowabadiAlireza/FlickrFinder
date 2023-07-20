@@ -5,7 +5,7 @@ import com.alireza.core.data.error.AppError
 
 /**
  * UseCaseModel is wrapper to hold data and exceptions and pass to presentation layer (ViewModels)
- * R is a Generic model to hold data model requested
+ * T is a Generic model to hold data model requested
  * */
 sealed class UseCaseModel<out T> {
 

@@ -9,7 +9,10 @@ import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 
-
+/**
+ * safeNavigation function is a wrapper for navigate function, before navigate it check the graph and
+ * current destination id to prevent navigation exceptions
+ * */
 fun Fragment.safeNavigation(
     action: NavDirections,
     rootFragmentId: Int,
