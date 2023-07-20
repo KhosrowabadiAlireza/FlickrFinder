@@ -1,0 +1,86 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
+}
+
+android {
+
+    applicationVariants.all { variant ->
+//        def flavor = variant.mergedFlavor
+        if (variant.buildType.isDebuggable()) {
+            //set properties for debug
+            variant.outputs.each { output ->
+                output.versionNameOverride = versionName + "-SNAPSHOT"
+            }
+        } else {
+            //set properties for release
+            variant.outputs.each { output ->
+                output.versionNameOverride = versionName
+            }
+        }
+    }
+
+    namespace 'com.alireza.flickrfinder'
+    compileSdk rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        applicationId "com.alireza.flickrfinder"
+        minSdk rootProject.ext.minimumSdkVersion
+        targetSdk rootProject.ext.targetSdkVersion
+        versionCode generateVersionCode()
+        versionName generateVersionName()
+
+        testInstrumentationRunner "com.alireza.flickrfinder.config.HiltTestRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            testCoverageEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    kapt {
+        correctErrorTypes true
+    }
+    hilt {
+        enableTransformForLocalTests = true
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+    implementation project(path: ':core')
+    implementation project(path: ':picture')
+    implementation apiLibraries
+    kapt kaptLibraries
+    testImplementation testLibraries
+    androidTestImplementation androidTestLibraries
+    kaptAndroidTest androidKaptTestLibraries
+    debugImplementation debugLibraries
+}
+
+
+private Integer generateVersionCode(){
+    return versionMajor * 10000 + versionMinor * 100 + versionPatch
+}
+
+private String generateVersionName(){
+    String versionName = "${versionMajor}.${versionMinor}.${versionPatch}"
+    return versionName
+}
